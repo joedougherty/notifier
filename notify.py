@@ -1,6 +1,9 @@
 import gntp.notifier
 import serial
 
+# Device name of Arduino connected via USB
+dev = '/dev/tty.usbmodem1411'
+
 growl = gntp.notifier.GrowlNotifier(
     applicationName = "Hey! Listen!",
     notifications = ["New Messages"],
@@ -9,7 +12,7 @@ growl = gntp.notifier.GrowlNotifier(
 
 growl.register()
 
-ser = serial.Serial('/dev/tty.usbmodem1411', 9600)
+ser = serial.Serial(dev, 9600)
 
 while True:
     serialMsg = ser.readline()

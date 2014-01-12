@@ -1,5 +1,4 @@
-const int buttonPin = 8;
-const int ledPin = 13;
+const int buttonPin = 8; // Listen for a signal from the RF module on this pin
 
 int buttonState = 0;
 int lastButtonState = 0;
