@@ -21,6 +21,7 @@ Wire the RF receiver up to your Arduino.
 
 This code uses pin 8 to listen for a signal from the keyfob, but you can feel free to use any pin you like. 
 Just make sure to update line 1 of notify.ino to point to the new pin.
+
 Upload your code to the Arduino. You can use the Arduino IDE's built-in serial monitor to make sure your signals are being sent/received properly.
 
 #### Software ####
