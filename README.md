@@ -1,15 +1,15 @@
-# Cubicle Doorbell #
+# Notifier: A simple cubicle doorbell project #
 ## Give your co-workers an easy way, non-intrusive to get your attention if you happen to have headphones on ##
 
 ## Mac OS X ##
 ### Materials/Packages Used ###
 
-    * Arduino (I used the Uno) + USB cable
-    * [RF Receiver Module (Momentary type)] (http://www.adafruit.com/products/1096)
-    * [Keyfob (to pair with RF receiver)] (http://www.adafruit.com/products/1095)
-    * [Growl] (http://growl.info/)
-    * Python 2.7.2
-    * [GNTP module] (http://pythonhosted.org/gntp/) 
+ + Arduino (I used the Uno) + USB cable
+ + [RF Receiver Module (Momentary type)] (http://www.adafruit.com/products/1096)
+ + [Keyfob (to pair with RF receiver)] (http://www.adafruit.com/products/1095)
+ + [Growl] (http://growl.info/)
+ + Python 2.7.2
+ + [GNTP module] (http://pythonhosted.org/gntp/) 
 
 ### Setup ###
 #### Hardware ####
@@ -24,7 +24,8 @@ Just make sure to update line 1 of notify.ino to point to the new pin.
 Upload your code to the Arduino. You can use the Arduino IDE's built-in serial monitor to make sure your signals are being sent/received properly.
 
 #### Software ####
-##### Install Growl. (I had no problems installing via the App Store.) ##### 
+##### Install Growl. #####
+(I had no problems installing via the App Store.) 
 
 ##### Install GNTP module. ######
 `sudo pip install gntp`
