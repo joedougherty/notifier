@@ -15,9 +15,9 @@
 #### Hardware ####
 Wire the RF receiver up to your Arduino. 
 
-    * Connect GND on the RF module to a Ground pin on the Arduino
-    * Connect +5V on the RF module to a 5v pin on the Arduino
-    * Connect D0 to pin 8 on the Arduino. This RF pin corresponds to the 'D' button on the keyfob.
+ + Connect GND on the RF module to a Ground pin on the Arduino
+ + Connect +5V on the RF module to a 5v pin on the Arduino
+ + Connect D0 to pin 8 on the Arduino. This RF pin corresponds to the 'D' button on the keyfob.
 
 This code uses pin 8 to listen for a signal from the keyfob, but you can feel free to use any pin you like. 
 Just make sure to update line 1 of notify.ino to point to the new pin.
