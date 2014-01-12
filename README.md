@@ -42,7 +42,7 @@ I prefer to run this in a screen/tmux session and detach the session. It could a
 `python notify.py &`
 
 ### Use it! ###
- + Put the keyfob in a visible/accessible place on your cubicle/office door. 
+ + Put the keyfob in a visible/accessible place on your cubicle wall/office door. 
  + Include a quick legend so that your coworkers have some idea what this contraption is and how to use it.
  + Put on headphones and blast some jams.
  + Be content in your knowledge that you've given your colleagues an easy way to get your attention without compromising personal space.
