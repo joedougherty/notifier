@@ -1,5 +1,5 @@
 # Notifier: A simple cubicle doorbell project #
-## Give your co-workers an easy way, non-intrusive to get your attention if you happen to have headphones on ##
+## Give your co-workers an easy way, non-intrusive to get your attention if you happen to have headphones on. ##
 
 ## Mac OS X: ##
 ### Materials/Packages Used ###
