@@ -1,7 +1,7 @@
 # Notifier: A simple cubicle doorbell project #
 ## Give your co-workers an easy way, non-intrusive to get your attention if you happen to have headphones on ##
 
-## Mac OS X ##
+## Mac OS X: ##
 ### Materials/Packages Used ###
 
  + Arduino (I used the Uno) + USB cable
@@ -39,6 +39,12 @@ Use that serial port as the value of the 'dev' variable on line 5 of notify.py. 
 ##### Run notify.py. #####
 I prefer to run this in a screen/tmux session and detach the session. It could also simply be run as a background process:
 `python notify.py &`
+
+### Use it! ###
+ + Put the keyfob in a visible/accessible place on your cubicle/office door. 
+ + Include a quick legend so that your coworkers have some idea what this contraption is and how to use it.
+ + Put on headphones and blast some jams.
+ + Be content in your knowledge that you've given your colleagues an easy way to get your attention without compromising personal space.
 
 ### Known Issues ###
 If I put my machine into a sleep state, the Python script needs to be restarted. Hence my usage of screen/tmux above. 
