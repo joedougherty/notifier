@@ -1,5 +1,5 @@
 # Notifier: A simple cubicle doorbell project #
-## Give your co-workers an easy way, non-intrusive to get your attention if you happen to have headphones on. ##
+## Give your co-workers an easy, non-intrusive way to get your attention if you happen to have headphones on. ##
 
 ## Mac OS X: ##
 ### Materials/Packages Used ###
@@ -12,6 +12,7 @@
  + [GNTP module] (http://pythonhosted.org/gntp/) 
 
 ### Setup ###
+
 #### Hardware ####
 Wire the RF receiver up to your Arduino. 
 
