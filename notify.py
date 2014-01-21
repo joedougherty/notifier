@@ -18,6 +18,7 @@ while True:
     serialMsg = ser.readline()
 
     if serialMsg == 'on\r\n':
+        print('button pressed') # debug
         growl.notify(
             noteType = "New Messages",
             title = "Pay attention...",
