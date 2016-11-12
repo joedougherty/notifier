@@ -1,15 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import serial
-import serial.tools.list_ports
+import serial, serial.tools.list_ports
 import subprocess
 import logging
 import time
+import importlib
+import os
+import sys
+try:
+    import ConfigParser as configparser
+except:
+    # Python 3  
+    import configparser
 
 def createlogger():
     logger = logging.getLogger()
     handler = logging.StreamHandler()
-    formatter = logging.Formatter('[ %(asctime)s ] %(levelname)-8s %(message)s')
+    formatter = logging.Formatter('[%(asctime)s] %(levelname)-8s %(message)s')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.DEBUG)
@@ -22,6 +29,11 @@ def alert(title="Pay Attention!", msg="Someone wants to speak with you."):
     else:
         log.error('/usr/bin/notify received return code {}'.format(rc))
 
+def identify_board(p):
+    if p.description == 'Adafruit' and p.manufacturer == 'Flora':
+        return True
+    return False
+
 def autoconnect(alert_user_on_connection=False):
     log.info('Attempting to find + connect to USB device...')
 
@@ -30,7 +42,7 @@ def autoconnect(alert_user_on_connection=False):
     while device_not_found:
         known_ports = list(serial.tools.list_ports.comports())
         for p in known_ports:
-            if p.description == 'FT232R USB UART':
+            if identify_board(p):
                 log.info('Found device at address: {}'.format(p.device))
                 device_not_found = False
         time.sleep(1)
@@ -40,11 +52,79 @@ def autoconnect(alert_user_on_connection=False):
 
     return serial.Serial(p.device, 9600, timeout=10)
 
+def run_action_a(usermodule=None):
+    try:
+        usermodule.run_action_a()
+    except:
+        pass
+
+def run_action_b(usermodule=None):
+    try:
+        usermodule.run_action_b()
+    except:
+        pass
+
+def run_action_c(usermodule=None):
+    try:
+        usermodule.run_action_c()
+    except:
+        pass
+
+def run_action_d(usermodule=None):
+    try:
+        usermodule.run_action_d()
+    except:
+        pass
+
+def on_connect(usermodule=None):
+    try:
+        usermodule.on_connect()
+    except:
+        pass
+
+def on_disconnect(usermodule=None):
+    try:
+        usermodule.on_disconnect()
+    except:
+        pass
+
+def customcode():
+    if config_file():
+        try:
+            path_to_custom_events = config_file().get('notifier', 'custom_script')
+            log.info('Using file at {} as custom_script.'.format(path_to_custom_events))
+        except configparser.NoOptionError:
+            log.info('custom_script variable not set in config file.') 
+            return False
+
+        containing_dir = os.path.split(path_to_custom_events)[0]
+        sys.path.append(containing_dir) 
+        return importlib.import_module('notifieractions')
+    return False 
+
+def config_file():
+    config_location = os.path.join(os.path.expanduser('~'), '.notifier.conf')
+    if not os.path.exists(config_location):
+        log.info('No config file found at {}.'.format(config_location))
+        return False
+
+    try:
+        cfg = configparser.ConfigParser()
+        cfg.read(config_location)
+        return cfg
+    except:
+        log.error('Config file at {} could not be read.'.format(config_location))
+        return False
+
 if __name__ == '__main__':
     log = createlogger()
     log.info('notifier started.')
 
+    # Let's go find your custom actions file
+    usermodule = customcode()
+
     p = autoconnect() # Won't you join me on the perennial quest?
+    on_connect(usermodule=usermodule)
 
     while True:
         try:
@@ -52,9 +132,27 @@ if __name__ == '__main__':
         except serial.serialutil.SerialException:
             log.error('USB disconnected.')
             alert(msg="USB disconnected. :[")
+            on_disconnect(usermodule=usermodule)
+
             p = autoconnect(alert_user_on_connection=True)
+            on_connect(usermodule=usermodule)
+
             serialMsg = p.readline().strip()
 
-        if serialMsg in ('on', b'on'):
+        if serialMsg in ('a_recvd', b'a_recvd'): # A Button
+            log.info('Received {} from serial.'.format(serialMsg.strip()))
+            run_action_a(usermodule=usermodule)
+
+        if serialMsg in ('b_recvd', b'b_recvd'): # B Button
+            log.info('Received {} from serial.'.format(serialMsg.strip()))
+            run_action_b(usermodule=usermodule)
+
+        if serialMsg in ('c_recvd', b'c_recvd'): # C Button
+            log.info('Received {} from serial.'.format(serialMsg.strip()))
+            run_action_c(usermodule=usermodule)
+
+        if serialMsg in ('d_recvd', b'd_recvd'): # D Button
             log.info('Received {} from serial.'.format(serialMsg.strip()))
             alert()
+            run_action_d(usermodule=usermodule)
+
