@@ -23,11 +23,12 @@ def createlogger():
     return logger
 
 def alert(title="Pay Attention!", msg="Someone wants to speak with you."):
-    rc = subprocess.call(["/usr/bin/notify-send", title, msg])
-    if rc == 0:
-        log.info('/usr/bin/notify received return code 0')
-    else:
-        log.error('/usr/bin/notify received return code {}'.format(rc))
+    if use_default_alert():
+        rc = subprocess.call(["/usr/bin/notify-send", title, msg])
+        if rc == 0:
+            log.info('/usr/bin/notify received return code 0')
+        else:
+            log.error('/usr/bin/notify received return code {}'.format(rc))
 
 def identify_board(p):
     if p.description == 'Adafruit' and p.manufacturer == 'Flora':
@@ -87,6 +88,16 @@ def on_disconnect(usermodule=None):
         usermodule.on_disconnect()
     except:
         pass
+
+def use_default_alert():
+    """ 
+    Use the default alert unless the user specifies otherwise
+    explicitly in the config file.
+    """
+    try:
+        return config_file().getboolean('notifier', 'use_default_alert')
+    except:
+        return True
 
 def customcode():
     if config_file():
