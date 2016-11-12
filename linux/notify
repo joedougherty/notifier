@@ -54,36 +54,55 @@ def autoconnect(alert_user_on_connection=False):
     return serial.Serial(p.device, 9600, timeout=10)
 
 def run_action_a(usermodule=None):
+    if usermodule is None: 
+        pass
+
     try:
         usermodule.run_action_a()
     except:
-        pass
+        log.error('There was an error trying to run action A.')
 
 def run_action_b(usermodule=None):
-    try:
-        usermodule.run_action_b()
-    except:
+    if usermodule is None:
         pass
 
+    try:
+        usermodule.run_action_b()
+    except Exception as e:
+        log.error('There was an error trying to run action B.')
+        log.error(e)
+
 def run_action_c(usermodule=None):
+    if usermodule is None:
+        pass
+
     try:
         usermodule.run_action_c()
     except:
-        pass
+        log.error('There was an error trying to run action C.')
 
 def run_action_d(usermodule=None):
+    if usermodule is None:
+        pass
+
     try:
         usermodule.run_action_d()
     except:
-        pass
+        log.error('There was an error trying to run action D.')
 
 def on_connect(usermodule=None):
+    if usermodule is None:
+        pass
+
     try:
         usermodule.on_connect()
     except:
         pass
 
 def on_disconnect(usermodule=None):
+    if usermodule is None:
+        pass
+
     try:
         usermodule.on_disconnect()
     except:
