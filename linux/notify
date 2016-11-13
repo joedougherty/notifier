@@ -61,7 +61,7 @@ def autoconnect(alert_user_on_connection=False):
 
 def run_action_a(usermodule=None):
     if usermodule is None: 
-        pass
+        return
 
     try:
         usermodule.run_action_a()
@@ -70,7 +70,7 @@ def run_action_a(usermodule=None):
 
 def run_action_b(usermodule=None):
     if usermodule is None:
-        pass
+        return
 
     try:
         usermodule.run_action_b()
@@ -80,7 +80,7 @@ def run_action_b(usermodule=None):
 
 def run_action_c(usermodule=None):
     if usermodule is None:
-        pass
+        return
 
     try:
         usermodule.run_action_c()
@@ -89,7 +89,7 @@ def run_action_c(usermodule=None):
 
 def run_action_d(usermodule=None):
     if usermodule is None:
-        pass
+        return
 
     try:
         usermodule.run_action_d()
@@ -98,7 +98,7 @@ def run_action_d(usermodule=None):
 
 def on_connect(usermodule=None):
     if usermodule is None:
-        pass
+        return
 
     try:
         usermodule.on_connect()
@@ -107,7 +107,7 @@ def on_connect(usermodule=None):
 
 def on_disconnect(usermodule=None):
     if usermodule is None:
-        pass
+        return 
 
     try:
         usermodule.on_disconnect()
@@ -128,10 +128,14 @@ def customcode():
     if config_file():
         try:
             path_to_custom_events = config_file().get('notifier', 'custom_script')
-            log.info('Using file at {} as custom_script.'.format(path_to_custom_events))
+            log.info('Looking for custom script file at {}...'.format(path_to_custom_events))
         except configparser.NoOptionError:
             log.info('custom_script variable not set in config file.') 
             return False
+
+        if not os.path.exists(path_to_custom_events):
+            log.error("Could not find a file named {}.".format(path_to_custom_events))
+            raise IOError
 
         containing_dir = os.path.split(path_to_custom_events)[0]
         sys.path.append(containing_dir) 
@@ -193,7 +197,10 @@ if __name__ == '__main__':
     log.info('notifier started.')
 
     # Let's go find your custom actions file
-    usermodule = customcode()
+    try:
+        usermodule = customcode()
+    except IOError:
+        sys.exit(2)
 
     p = autoconnect() # Won't you join me on the perennial quest?
     on_connect(usermodule=usermodule)
